@@ -156,7 +156,7 @@ public class PokedexService {
     public void savePokemonEntry (Pokemon pokemon) throws JsonProcessingException {
         String pkmnJsonString = objectMapper.writeValueAsString(pokemon);
 
-        pokedexRepo.setHash(Constants.pokedexRedisKey, String.valueOf(pokemon.getId()), pkmnJsonString);
+        pokedexRepo.setHash(Constants.pokedexRedisKey, String.valueOf(pokemon.getName()), pkmnJsonString);
     }
 
     public Boolean redisKeyExists(String redisKey) {
