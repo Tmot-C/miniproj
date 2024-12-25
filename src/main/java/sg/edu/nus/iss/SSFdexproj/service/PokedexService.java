@@ -67,6 +67,7 @@ public class PokedexService {
     public void getDexData(HashMap<String, String> map) throws JsonMappingException, JsonProcessingException{
 
         int counter = 0;
+        String gen = "";
         for (String value : map.values()) {
             
             Pokemon pokemon = new Pokemon();
@@ -78,6 +79,36 @@ public class PokedexService {
             String name = PokedexUtils.stringOps(jsonObject.getString("name"));
             int height = jsonObject.getInt("height");
             int weight = jsonObject.getInt("weight");
+            
+            
+            if (id < 152) {
+                gen = "I";
+            }
+            else if (id < 252) {
+                gen = "II";
+            }
+            else if (id < 387) {
+                gen = "III";
+            }
+            else if (id < 494) {
+                gen = "IV";
+            }
+            else if (id < 650) {
+                gen = "V";
+            }
+            else if (id < 722) {
+                gen = "VI";
+            }
+            else if (id < 810) {
+                gen = "VII";
+            }
+            else if (id < 906) {
+                gen = "VIII";
+            }
+            else if (id < 1026) {
+                gen = "IX";
+            }
+
 
             JSONArray abilitiesArray = jsonObject.getJSONArray("abilities");
             List<String> abilities = new ArrayList<>();
@@ -111,33 +142,26 @@ public class PokedexService {
             }
 
             String officialArtworkUrl = "";
-            if (jsonObject.has("sprites")) {
-                JSONObject spritesObject = jsonObject.getJSONObject("sprites");
-                if (spritesObject.has("other")) {
-                    JSONObject otherObject = spritesObject.getJSONObject("other");
-                    if (otherObject.has("official-artwork")) {
-                        JSONObject officialArtworkObject = otherObject.getJSONObject("official-artwork");
-                        if (officialArtworkObject.has("front_default")) {
-                            officialArtworkUrl = officialArtworkObject.getString("front_default");
-                        }
-                    }
-                }
-            }
+            
+            JSONObject spritesObject = jsonObject.getJSONObject("sprites");
+            JSONObject otherObject = spritesObject.getJSONObject("other");    
+            JSONObject officialArtworkObject = otherObject.getJSONObject("official-artwork");
+            officialArtworkUrl = officialArtworkObject.getString("front_default");
+
 
             String spriteUrl = "";
-            if (jsonObject.has("sprites")) {
-                JSONObject spritesObject = jsonObject.getJSONObject("sprites");
-                if (spritesObject.has("front_default")) {
-                    spriteUrl = spritesObject.getString("front_default");
-                }
-            }
+            spriteUrl = spritesObject.getString("front_default");
+
 
             pokemon.setId(id);
             pokemon.setName(name);
             pokemon.setHeight(height);
             pokemon.setWeight(weight);
+            pokemon.setGen(gen);
             pokemon.setAbilities(abilities);
             pokemon.setTypes(types);
+            pokemon.setStats(stats);
+            pokemon.setBst(bst);
             pokemon.setMoves(moves);
             pokemon.setOfficial_artwork(officialArtworkUrl);
             pokemon.setSprite(spriteUrl);
@@ -153,10 +177,17 @@ public class PokedexService {
         
     }
 
+    public Pokemon getRedisDexEntry(String id) throws JsonMappingException, JsonProcessingException {
+        String pkmnJsonString = pokedexRepo.getValueFromHash(Constants.pokedexRedisKey, id);
+        Pokemon pokemon = objectMapper.readValue(pkmnJsonString, Pokemon.class);
+        return pokemon;
+    }
+
+
     public void savePokemonEntry (Pokemon pokemon) throws JsonProcessingException {
         String pkmnJsonString = objectMapper.writeValueAsString(pokemon);
 
-        pokedexRepo.setHash(Constants.pokedexRedisKey, String.valueOf(pokemon.getName()), pkmnJsonString);
+        pokedexRepo.setHash(Constants.pokedexRedisKey, String.valueOf(pokemon.getId()), pkmnJsonString);
     }
 
     public Boolean redisKeyExists(String redisKey) {

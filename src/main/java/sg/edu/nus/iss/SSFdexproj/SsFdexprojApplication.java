@@ -7,6 +7,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import sg.edu.nus.iss.SSFdexproj.models.Pokemon;
 import sg.edu.nus.iss.SSFdexproj.service.PokedexService;
 import sg.edu.nus.iss.SSFdexproj.utils.Constants;
 
@@ -28,7 +29,9 @@ public class SsFdexprojApplication implements CommandLineRunner{
 		 if (!pokedexService.redisKeyExists(Constants.pokedexRedisKey))
 		 pokedexService.getDexData(pokeMap);
 
-		 System.out.println("success");
+		 Pokemon pokemon = pokedexService.getRedisDexEntry("601");
+
+		 System.out.println(pokemon.toString());
 
 	}
 

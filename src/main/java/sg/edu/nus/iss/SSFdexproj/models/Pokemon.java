@@ -7,11 +7,14 @@ public class Pokemon {
     private String name;
     private int height;
     private int weight;
+    private int bst;
+    private String gen;
 
     private List<String> abilities;
     private List<String> types;
     private List<Integer> stats;
     private List<String> moves;
+    
 
     private String official_artwork;
     private String sprite;
@@ -21,12 +24,14 @@ public class Pokemon {
     }
 
 
-    public Pokemon(int id, String name, int height, int weight, List<String> abilities, List<String> types,
-            List<Integer> stats, List<String> moves, String official_artwork, String sprite) {
+    public Pokemon(int id, String name, int height, int weight, int bst, String gen, List<String> abilities,
+            List<String> types, List<Integer> stats, List<String> moves, String official_artwork, String sprite) {
         this.id = id;
         this.name = name;
         this.height = height;
         this.weight = weight;
+        this.bst = bst;
+        this.gen = gen;
         this.abilities = abilities;
         this.types = types;
         this.stats = stats;
@@ -73,6 +78,26 @@ public class Pokemon {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+
+    public int getBst() {
+        return bst;
+    }
+
+
+    public void setBst(int bst) {
+        this.bst = bst;
+    }
+
+
+    public String getGen() {
+        return gen;
+    }
+
+
+    public void setGen(String gen) {
+        this.gen = gen;
     }
 
 
@@ -138,12 +163,10 @@ public class Pokemon {
 
     @Override
     public String toString() {
-        return "Pokemon [id=" + id + ", name=" + name + ", height=" + height + ", weight=" + weight + ", abilities="
-                + abilities + ", types=" + types + ", stats=" + stats + ", moves=" + moves + ", official_artwork="
-                + official_artwork + ", sprite=" + sprite + "]";
+        return "Pokemon [id=" + id + ", name=" + name + ", height=" + height + ", weight=" + weight + ", bst=" + bst
+                + ", gen=" + gen + ", abilities=" + abilities + ", types=" + types + ", stats=" + stats + ", moves="
+                + moves + ", official_artwork=" + official_artwork + ", sprite=" + sprite + "]";
     }
-
-    
 
     
 }
