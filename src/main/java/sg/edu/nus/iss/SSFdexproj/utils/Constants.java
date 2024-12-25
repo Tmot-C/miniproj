@@ -6,5 +6,7 @@ public class Constants {
 
     public static final String pokedexRedisKey = "pokedex";
     public static final String compDexRedisKey = "CompPokedex";
+    public static final String userbaseRedisKey = "users";
+
     
 }

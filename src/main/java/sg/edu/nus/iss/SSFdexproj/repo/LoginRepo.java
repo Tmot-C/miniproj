@@ -14,7 +14,7 @@ import sg.edu.nus.iss.SSFdexproj.utils.Constants;
 public class LoginRepo {
 
     @Repository
-public class UserRepo {
+    public class UserRepo {
     
     @Autowired
     @Qualifier(Constants.template01)

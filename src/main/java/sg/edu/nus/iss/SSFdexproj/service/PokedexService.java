@@ -177,6 +177,74 @@ public class PokedexService {
         
     }
 
+    
+    public List<Pokemon> getGen(String gen) throws JsonMappingException, JsonProcessingException {
+        
+        List<Pokemon> pokemonList = new ArrayList<>();
+        
+        switch (gen) {
+            case "i":
+                    for (int i = 1; i < 152; i++) {
+                        Pokemon pokemon = getRedisDexEntry(String.valueOf(i));
+                        pokemonList.add(pokemon);
+                    }
+                break;
+            case "ii":
+                for (int i = 152; i < 252; i++) {
+                    Pokemon pokemon = getRedisDexEntry(String.valueOf(i));
+                    pokemonList.add(pokemon);
+                }
+                break;                
+            case "iii":
+                for (int i = 252; i < 387; i++) {
+                    Pokemon pokemon = getRedisDexEntry(String.valueOf(i));
+                    pokemonList.add(pokemon);
+                }
+                break;
+            case "iv":
+                for (int i = 387; i < 494; i++) {
+                    Pokemon pokemon = getRedisDexEntry(String.valueOf(i));
+                    pokemonList.add(pokemon);
+                }
+                break;
+            case "v":
+                for (int i = 494; i < 650; i++) {
+                    Pokemon pokemon = getRedisDexEntry(String.valueOf(i));
+                    pokemonList.add(pokemon);
+                }
+                break;
+            case "vi":
+                for (int i = 650; i < 722; i++) {
+                    Pokemon pokemon = getRedisDexEntry(String.valueOf(i));
+                    pokemonList.add(pokemon);
+                }
+                break;
+            case "vii":
+                for (int i = 722; i < 810; i++) {
+                    Pokemon pokemon = getRedisDexEntry(String.valueOf(i));
+                    pokemonList.add(pokemon);
+                }
+                break;
+            case "viii":
+                for (int i = 810; i < 906; i++) {
+                    Pokemon pokemon = getRedisDexEntry(String.valueOf(i));
+                    pokemonList.add(pokemon);
+                }
+                break;
+            case "ix":
+                for (int i = 906; i < 1026; i++) {
+                    Pokemon pokemon = getRedisDexEntry(String.valueOf(i));
+                    pokemonList.add(pokemon);
+                }
+                break;        
+            default:
+                break;
+        }
+
+        return pokemonList;
+    }
+
+
     public Pokemon getRedisDexEntry(String id) throws JsonMappingException, JsonProcessingException {
         String pkmnJsonString = pokedexRepo.getValueFromHash(Constants.pokedexRedisKey, id);
         Pokemon pokemon = objectMapper.readValue(pkmnJsonString, Pokemon.class);
@@ -189,6 +257,7 @@ public class PokedexService {
 
         pokedexRepo.setHash(Constants.pokedexRedisKey, String.valueOf(pokemon.getId()), pkmnJsonString);
     }
+
 
     public Boolean redisKeyExists(String redisKey) {
         return pokedexRepo.hashExists(redisKey);
