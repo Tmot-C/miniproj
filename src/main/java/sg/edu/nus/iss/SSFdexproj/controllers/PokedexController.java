@@ -32,12 +32,12 @@ public class PokedexController {
     }
 
     @GetMapping("/pokedex")
-    public String genSelector(Model model, HttpSession session) {
+    public String dexHome(Model model, HttpSession session) {
         
         User currentLoginUser = (User) session.getAttribute("currentLoginUser");
         model.addAttribute("currentLoginUser", currentLoginUser);
         
-        return "genselection";
+        return "dexHome";
     }
 
     @GetMapping("/pokedex/{generation}")
@@ -55,6 +55,11 @@ public class PokedexController {
         User currentLoginUser = (User) session.getAttribute("currentLoginUser");
         model.addAttribute("currentLoginUser", currentLoginUser);
         Pokemon pokemon = pokedexService.getRedisDexEntry(id);
+
+        if (pokemon != null){
+            return "invalidPokemon";
+        }
+
         model.addAttribute("pokemon", pokemon);
         
         return"dexentry";
