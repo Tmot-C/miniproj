@@ -20,11 +20,11 @@
     ARG DEPLOY_DIR=/app
     
     WORKDIR ${DEPLOY_DIR}
-    COPY --from=compiler /code_folder/target/ssf_mini_project-0.0.1-SNAPSHOT.jar ssf_mini_project.jar
+    COPY --from=compiler /code_folder/target/SSFdexproj-0.0.1-SNAPSHOT.jar SSFdexproj.jar
     
     
     ENV SERVER_PORT=3000
     EXPOSE ${SERVER_PORT}
     
-    ENTRYPOINT java -jar ssf_mini_project.jar
+    ENTRYPOINT java -jar SSFdexproj.jar
         
