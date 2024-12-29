@@ -25,22 +25,20 @@
         }
 
         .navbar {
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            background-color: #000; /* Dark navbar background */
-        }
-
-        .navbar a {
-            color: white;
-        }
-
-        .navbar a:hover {
-            text-decoration: underline;
-        }
+			position: sticky;
+			top: 0; 
+			z-index: 1000; 
+			margin-bottom: 20px;
+			}
+			.navbar a {
+			color: white;
+			}
+			.navbar a:hover {
+			text-decoration: underline;
+			}
 
         .registration-container {
-            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            background: rgba(255, 255, 255, 0.9); 
             border-radius: 15px;
             padding: 30px;
             text-align: center;
@@ -113,18 +111,27 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-dark p-0">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-            <!-- Left Section: Homepage and Pokedex Links -->
-            <div class="d-flex align-items-center">
-                <a class="navbar-brand fs-5 mx-3" th:href="@{/}">Homepage</a>
-                <a class="nav-link fs-5 mx-3" th:href="@{/pokedex}">Pokedex</a>
-            </div>
-
-            </div>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid">
+           <!-- Toggler (Hamburger Button) -->
+           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+           <span class="navbar-toggler-icon"></span>
+           </button>
+           <!-- Collapsible Links -->
+           <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                 <!-- Left-aligned Links -->
+                 <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}">Homepage</a>
+                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link" th:href="@{/pokedex}">Pokedex</a>
+                 </li>
+                 </li>
+              </ul>
+           </div>
         </div>
-    </nav>
-
+     </nav>
     <!-- Registration Form -->
     <div class="registration-container">
         <!-- Title -->

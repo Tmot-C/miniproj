@@ -90,7 +90,7 @@ public class LoginController {
         }
         
         loginService.regNewUser(user);
-        return "redirect:/";
+        return "redirect:/login";
     }
 
 
