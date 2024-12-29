@@ -10,7 +10,6 @@ import sg.edu.nus.iss.SSFdexproj.models.Pokemon;
 import sg.edu.nus.iss.SSFdexproj.models.User;
 import sg.edu.nus.iss.SSFdexproj.service.PokedexService;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,7 +17,6 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 
 import jakarta.servlet.http.HttpSession;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
@@ -37,7 +35,7 @@ public class TeambuilderController {
 
         String username= currentLoginUser.getUsername();
         if(!pokedexService.teamExists(username)){
-            System.out.println("BLAH");
+            
             Pokemon pokemon = pokedexService.getRedisDexEntry(id);
             pokedexService.newTeam(pokemon, username);
 
@@ -47,13 +45,13 @@ public class TeambuilderController {
        int teamsize = pokedexService.getTeamSize(username);
 
        if (teamsize == 6) {
-        System.out.println("BLAH BLAH");
+        
         String fullMessage = "You cannot have a team with more than 6 Pokemon, remove at least one to add more.";
         session.setAttribute("fullMessage", fullMessage);
 
         return "redirect:/teambuilder";
        }
-       System.out.println("BLAH BLAH BLAH");
+       
        Pokemon pokemon = pokedexService.getRedisDexEntry(id);
        pokedexService.addToTeam(pokemon, username);
         return "redirect:/teambuilder";
@@ -73,7 +71,10 @@ public class TeambuilderController {
         try {
             List<Pokemon> team = pokedexService.getTeam(username);
             model.addAttribute("team", team);
-            System.out.println(team);
+            if (team.size() == 0) {
+                return "emptyteam";
+            }
+           
             return "teambuilder";
         } catch (Exception e) {
             return"emptyteam";

@@ -1,11 +1,7 @@
 package sg.edu.nus.iss.SSFdexproj.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import org.json.JSONArray;
@@ -20,11 +16,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import ch.qos.logback.core.joran.conditional.ElseAction;
-import jakarta.json.Json;
-import jakarta.json.JsonArray;
-import jakarta.json.JsonObject;
-import jakarta.json.JsonReader;
 import sg.edu.nus.iss.SSFdexproj.utils.Constants;
 import sg.edu.nus.iss.SSFdexproj.utils.PokedexUtils;
 import sg.edu.nus.iss.SSFdexproj.utils.Url;
@@ -61,12 +52,7 @@ public class PokedexService {
 
         return pokeMap;
 
-        // InputStream is = new ByteArrayInputStream(payload.getBytes());
-        // JsonReader jr = Json.createReader(is);
-        // JsonObject jObject = jr.readObject();
-        // JsonArray jArray = jObject.getJsonArray("results");
 
-        // System.out.println(jArray);
     }
 
     public void getDexData(HashMap<String, String> map) throws JsonMappingException, JsonProcessingException{

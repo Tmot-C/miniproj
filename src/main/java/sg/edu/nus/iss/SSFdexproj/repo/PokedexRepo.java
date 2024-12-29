@@ -21,30 +21,28 @@ public class PokedexRepo {
     private RedisTemplate<String, String> template;
 
     
-    // Add or update a single key-value pair in a hash (CREATE)
+    
     public void setHash(String redisKey, String mapKey, String value) {
         template.opsForHash().put(redisKey,mapKey, value);
     }
-    //update a single key-value pair in a hash (UPDATE)
-    //may need to fixate String mapKey and update value directly
+
     public void updateValue(String redisKey,String mapKey,String value) {
-        template.opsForHash().put(redisKey, mapKey,value); //hset c01 email fred@gmail.com
+        template.opsForHash().put(redisKey, mapKey,value); 
     }
 
-    // Get the list of values from hash ( the rawData ) (READALL)
+    
     public List<Object> getAllValuesFromHash(String redisKey) {
     
-        return (List<Object>) template.opsForHash().values(redisKey); //hvals c01
+        return (List<Object>) template.opsForHash().values(redisKey); 
         
     }
-    // Retrieve a value for a specific key in a hash (READONE)
+    
     public String getValueFromHash(String redisKey, String mapKey) {
-        return (String) template.opsForHash().get(redisKey, mapKey); //hget c01 email
-        //hgetall c01
+        return (String) template.opsForHash().get(redisKey, mapKey); 
     }
 
-    // Delete a specific mapKey from a hash (DELETE)
-    public Boolean deleteKeyFromHash(String redisKey, String mapKey) {//hdel c01 email
+    
+    public Boolean deleteKeyFromHash(String redisKey, String mapKey) {
 
         Boolean isDeleted = false;
         Long iFound = template.opsForHash().delete(redisKey, mapKey);
@@ -55,17 +53,14 @@ public class PokedexRepo {
         
     }
 
-    // Check if a mapKey exists in a hash
-    public Boolean hasKey(String redisKey, String mapKey) { //hexists c01 email
+    
+    public Boolean hasKey(String redisKey, String mapKey) { 
         return template.opsForHash().hasKey(redisKey, mapKey);
     }
 
-    // Get the size of a hash (number of keys)
-    public Integer getHashSize(String redisKey) { //hlen c01
-        return template.opsForHash().size(redisKey).intValue();
-    }
 
-    // Check if a hash exists
+
+    
     public Boolean hashExists(String redisKey) {
         return template.hasKey(redisKey);
     }

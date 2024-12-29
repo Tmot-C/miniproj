@@ -28,10 +28,13 @@ public class SsFdexprojApplication implements CommandLineRunner{
 		
 		 HashMap<String, String> pokeMap = pokedexService.getUrlMap();
 
-		 if (!pokedexService.redisKeyExists(Constants.pokedexRedisKey))
-		 pokedexService.getDexData(pokeMap);
+		 if (!pokedexService.redisKeyExists(Constants.pokedexRedisKey)){
+			pokedexService.getDexData(pokeMap);
+			System.out.println("success");
+		 }
+		 
 
-		 List<Pokemon> pokemon = pokedexService.getGen("i");
+		
 
 	}
 
