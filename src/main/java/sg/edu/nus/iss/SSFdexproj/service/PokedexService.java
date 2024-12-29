@@ -3,6 +3,7 @@ package sg.edu.nus.iss.SSFdexproj.service;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -15,9 +16,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ch.qos.logback.core.joran.conditional.ElseAction;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
@@ -26,6 +29,7 @@ import sg.edu.nus.iss.SSFdexproj.utils.Constants;
 import sg.edu.nus.iss.SSFdexproj.utils.PokedexUtils;
 import sg.edu.nus.iss.SSFdexproj.utils.Url;
 import sg.edu.nus.iss.SSFdexproj.models.Pokemon;
+
 import sg.edu.nus.iss.SSFdexproj.repo.PokedexRepo;
 
 @Service
@@ -36,6 +40,7 @@ public class PokedexService {
 
     @Autowired
     private ObjectMapper objectMapper;
+
     RestTemplate restTemplate = new RestTemplate();
 
     public HashMap<String, String> getUrlMap(){
@@ -155,8 +160,8 @@ public class PokedexService {
 
             pokemon.setId(id);
             pokemon.setName(name);
-            pokemon.setHeight(height);
-            pokemon.setWeight(weight);
+            pokemon.setHeight(height*10);
+            pokemon.setWeight(weight/10);
             pokemon.setGen(gen);
             pokemon.setAbilities(abilities);
             pokemon.setTypes(types);
@@ -244,6 +249,84 @@ public class PokedexService {
         return pokemonList;
     }
 
+    
+    public void addToTeam(Pokemon pokemon, String user) throws JsonMappingException, JsonProcessingException{
+        String teamJsonString = pokedexRepo.getValueFromHash(Constants.teamRepoRedisKey, user);
+        if (teamJsonString.startsWith("[")) {
+            List<Pokemon> team = objectMapper.readValue(teamJsonString, new TypeReference<List<Pokemon>>() {});
+            team.add(pokemon);
+            teamJsonString = objectMapper.writeValueAsString(team);
+            pokedexRepo.setHash(Constants.teamRepoRedisKey, user, teamJsonString);
+        }
+        else{
+            Pokemon mapPoke = objectMapper.readValue(teamJsonString, Pokemon.class);
+            List<Pokemon> team = new ArrayList<>();
+            team.add(mapPoke);
+            team.add(pokemon);
+            teamJsonString = objectMapper.writeValueAsString(team);
+            pokedexRepo.setHash(Constants.teamRepoRedisKey, user, teamJsonString);
+        }
+    }
+
+    public void newTeam(Pokemon pokemon, String user) throws JsonMappingException, JsonProcessingException{
+        String pokemonJsonString = objectMapper.writeValueAsString(pokemon);
+        pokedexRepo.setHash(Constants.teamRepoRedisKey, user, pokemonJsonString);
+    }
+
+    public int getTeamSize(String user) throws JsonMappingException, JsonProcessingException{
+        String teamJsonString = pokedexRepo.getValueFromHash(Constants.teamRepoRedisKey, user);
+        if (teamJsonString.startsWith("[")) {
+            List<Pokemon> team = objectMapper.readValue(teamJsonString, new TypeReference<List<Pokemon>>() {});
+            return team.size();
+        }
+        else return 1;
+    }
+
+    public List<Pokemon> getTeam(String user) throws JsonMappingException, JsonProcessingException{
+        String teamJsonString = pokedexRepo.getValueFromHash(Constants.teamRepoRedisKey, user);
+        if (teamJsonString.startsWith("[")) {
+            List<Pokemon> team = objectMapper.readValue(teamJsonString, new TypeReference<List<Pokemon>>() {});
+            return team;
+        }
+        Pokemon pokemon = objectMapper.readValue(teamJsonString, Pokemon.class);
+        List<Pokemon> team = new ArrayList<>();
+        team.add(pokemon);
+        return team;
+    }
+
+    public void removeFromTeam(int id, String user) throws JsonMappingException, JsonProcessingException{
+        String teamJsonString = pokedexRepo.getValueFromHash(Constants.teamRepoRedisKey, user);
+        if (teamJsonString.startsWith("[")) {
+            
+            List<Pokemon> team = objectMapper.readValue(teamJsonString, new TypeReference<List<Pokemon>>() {});
+            Pokemon toRemove = new Pokemon();
+            for (Pokemon pokemon : team) {
+                if(pokemon.getId() == id){
+                    toRemove = pokemon;
+                }
+            }
+            team.remove(toRemove);
+            teamJsonString = objectMapper.writeValueAsString(team);
+            pokedexRepo.updateValue(Constants.teamRepoRedisKey, user, teamJsonString);
+
+        }
+        else{   
+            Pokemon pokemon = objectMapper.readValue(teamJsonString, Pokemon.class);
+            List<Pokemon> team = new ArrayList<>(); 
+            Pokemon toRemove = new Pokemon();
+            for (Pokemon p : team) {
+                if(p.getId() == id){
+                    toRemove = pokemon;
+                }
+            }
+            team.remove(toRemove);
+            teamJsonString = objectMapper.writeValueAsString(team);
+            pokedexRepo.updateValue(Constants.teamRepoRedisKey, user, teamJsonString);
+        }
+
+        
+    }
+
 
     public Pokemon getRedisDexEntry(String id) throws JsonMappingException, JsonProcessingException {
         String pkmnJsonString = pokedexRepo.getValueFromHash(Constants.pokedexRedisKey, id);
@@ -258,9 +341,14 @@ public class PokedexService {
         pokedexRepo.setHash(Constants.pokedexRedisKey, String.valueOf(pokemon.getId()), pkmnJsonString);
     }
 
+    public Boolean teamExists(String user){
+        return pokedexRepo.hasKey(Constants.teamRepoRedisKey, user);
+    }
+
 
     public Boolean redisKeyExists(String redisKey) {
         return pokedexRepo.hashExists(redisKey);
 
     }
+
 }

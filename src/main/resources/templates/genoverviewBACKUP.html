@@ -1,0 +1,89 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <body>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Index</th>
+                    <th>Sprite</th>
+                    <th>Pokemon</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pokemon : ${genlist}">
+                    <td class="center"></td> th:text="${pokemon.id}"></td>
+                    <td class="center">
+                        <a th:href="@{/pokedex/{id}(id=${pokemon.id})}">
+                            <img th:src="${pokemon.sprite}" alt="Sprite">
+                        </a>
+                    </td>
+                    <td>
+                        <a th:href="@{/pokedex/{id}(id=${pokemon.id})}" th:text="${pokemon.name}"></a>
+                    </td>
+                    <td th:text="${pokemon.types}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    <nav>
+        <!-- Left Links -->
+        <div>
+            <a th:href="@{/}">Homepage</a>
+            <a th:href="@{/pokedex}">Pokedex</a>
+        </div>
+    
+        <!-- Right Links -->
+        <div>
+            <a th:if="${session.currentLoginUser != null}" th:href="@{/logout}">Logout</a>
+            <a th:if="${session.currentLoginUser == null}" th:href="@{/login}">Login</a>
+        </div>
+    </nav>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Index</th>
+                <th>Sprite</th>
+                <th>Pokemon</th>
+                <th>Type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pokemon : ${genlist}">
+                <!-- ID with null safety -->
+                <td class="center" th:text="${pokemon.id != null ? pokemon.id : 'Unknown'}"></td>
+                
+                <!-- Sprite with null safety -->
+                <td class="center">
+                    <a th:href="@{/pokedex/{id}(id=${pokemon.id})}">
+                        <img th:src="${pokemon.sprite != null ? pokemon.sprite : '/images/default-sprite.png'}" alt="Sprite">
+                    </a>
+                </td>
+                
+                <!-- Name with null safety -->
+                <td>
+                    <a th:href="@{/pokedex/{id}(id=${pokemon.id})}" 
+                       th:text="${pokemon.name != null ? pokemon.name : 'Unknown'}"></a>
+                </td>
+                
+                <!-- Types with null safety -->
+                <td th:text="${pokemon.types != null ? pokemon.types : 'No types available'}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

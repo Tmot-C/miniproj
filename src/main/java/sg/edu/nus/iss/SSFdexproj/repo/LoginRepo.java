@@ -13,9 +13,7 @@ import sg.edu.nus.iss.SSFdexproj.utils.Constants;
 @Repository
 public class LoginRepo {
 
-    @Repository
-    public class UserRepo {
-    
+
     @Autowired
     @Qualifier(Constants.template01)
     private RedisTemplate<String, String> template;
@@ -42,6 +40,5 @@ public class LoginRepo {
     public Set<Object> getAllKeysFromHash(String redisKey) {
         return template.opsForHash().keys(redisKey); //hkeys c01
     }
-}
     
 }

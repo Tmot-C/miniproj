@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+</head>
+<body>
+    <nav>
+        <!-- Left Links -->
+        <div>
+            <a th:href="@{/}">Homepage</a>
+            <a th:href="@{/pokedex}">Pokedex</a>
+        </div>
+    
+        <!-- Right Links -->
+        <div>
+            <a th:if="${session.currentLoginUser != null}" th:href="@{/logout}">Logout</a>
+            <a th:if="${session.currentLoginUser == null}" th:href="@{/login}">Login</a>
+        </div>
+    </nav>
+    <table border="1">
+        <thead>
+            <div th:if="${fullMessage != null}" th:text="${fullMessage}" class="error"></div>
+            <tr>
+                <th>Index</th>
+                <th>Sprite</th>
+                <th>Pokemon</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="pokemon : ${team}">
+                <!-- ID with null safety -->
+                <td class="center" th:text="${pokemon.id != null ? pokemon.id : 'Unknown'}"></td>
+                
+                <!-- Sprite with null safety -->
+                <td class="center">
+                    <a th:href="@{/pokedex/{id}(id=${pokemon.id})}">
+                        <img th:src="${pokemon.sprite != null ? pokemon.sprite : '/images/default-sprite.png'}" alt="Sprite">
+                    </a>
+                </td>
+                
+                <!-- Name with null safety -->
+                <td>
+                    <a th:href="@{/pokedex/{id}(id=${pokemon.id})}" 
+                       th:text="${pokemon.name != null ? pokemon.name : 'Unknown'}"></a>
+                </td>
+                <td>
+                    <select>
+                        <option value=""selected>Select an ability</option>
+                        <option th:each="ability : ${pokemon.abilities}" th:value="${ability}" th:text="${ability}"></option>
+                    </select>
+                    <select>
+                        <option value=""selected>Select a move</option>
+                        <option th:each="move : ${pokemon.moves}" th:value="${move}" th:text="${move}"></option>
+                    </select>
+                    <select>
+                        <option value=""selected>Select a move</option>
+                        <option th:each="move : ${pokemon.moves}" th:value="${move}" th:text="${move}"></option>
+                    </select>    
+                    <select>
+                        <option value=""selected>Select a move</option>
+                        <option th:each="move : ${pokemon.moves}" th:value="${move}" th:text="${move}"></option>
+                    </select>    
+                    <select>
+                        <option value=""selected>Select a move</option>
+                        <option th:each="move : ${pokemon.moves}" th:value="${move}" th:text="${move}"></option>
+                    </select>        
+                </td>
+                <td>
+                    <form th:action="@{/teambuilder/remove}" method="post">
+                        <input type="hidden" name="id" th:value="${pokemon.id}">
+                        <button type="submit">Remove from team</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
+    
+                

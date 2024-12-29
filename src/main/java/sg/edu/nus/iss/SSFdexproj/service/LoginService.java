@@ -4,19 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import sg.edu.nus.iss.SSFdexproj.models.User;
-import sg.edu.nus.iss.SSFdexproj.repo.LoginRepo.UserRepo;
+import sg.edu.nus.iss.SSFdexproj.repo.LoginRepo;
+
 import sg.edu.nus.iss.SSFdexproj.utils.Constants;
 
+@Service
 public class LoginService {
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    UserRepo userRepo;
+    LoginRepo loginRepo;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -24,15 +31,15 @@ public class LoginService {
 
     public void regNewUser(User user) throws JsonProcessingException {
 
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         String userString = objectMapper.writeValueAsString(user);
         
         // Store the serialized user in Redis under the category
-        userRepo.setHash(Constants.userbaseRedisKey,user.getUsername().trim(), userString);
+        loginRepo.setHash(Constants.userbaseRedisKey,user.getUsername().trim(), userString);
     }
 
     public Boolean userExists(String username) {
-        System.out.println(username.trim());
-        return userRepo.hasKey(Constants.userbaseRedisKey, username.trim());
+        return loginRepo.hasKey(Constants.userbaseRedisKey, username.trim());
 
     }
 
@@ -50,7 +57,7 @@ public class LoginService {
     }
 
     public List<User> getUserList() throws JsonMappingException, JsonProcessingException {
-            List<Object> usersRaw = userRepo.getAllValuesFromHash(Constants.userbaseRedisKey);
+            List<Object> usersRaw = loginRepo.getAllValuesFromHash(Constants.userbaseRedisKey);
 
             List<User> users = new ArrayList<>();
 
@@ -65,17 +72,17 @@ public class LoginService {
     }
 
     public User getDataFromUsername(String username) throws JsonMappingException, JsonProcessingException {
-        String userString = userRepo.getValueFromHash(Constants.userbaseRedisKey,username.trim());
+        String userString = loginRepo.getValueFromHash(Constants.userbaseRedisKey,username.trim());
         User user = objectMapper.readValue(userString, User.class);
         return user;
     }
 
     public Boolean userAuthenticate(String username, String password) throws JsonProcessingException {
-        String userString= userRepo.getValueFromHash(Constants.userbaseRedisKey,username.trim());
+        String userString= loginRepo.getValueFromHash(Constants.userbaseRedisKey,username.trim());
         User user = objectMapper.readValue(userString, User.class);
 
 
-        return (password == user.getPassword());
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
     

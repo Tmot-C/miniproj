@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <body>
+        <div>
+            <nav>
+                <!-- Left Links -->
+                <div>
+                    <a th:href="@{/}">Homepage</a>
+                    <a th:href="@{/pokedex}">Pokedex</a>
+                </div>
+            
+                <!-- Right Links -->
+                <div>
+                    <a th:if="${session.currentLoginUser != null}" th:href="@{/logout}">Logout</a>
+                    <a th:if="${session.currentLoginUser == null}" th:href="@{/login}">Login</a>
+                </div>
+            </nav>
+            <h1>Login</h1>
+            <!-- Login Form -->
+            <form th:action="@{/login/authenticate}" method="post">
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div th:if="${errorMessage}">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+                <div>
+                    <button type="submit">Login</button>
+                </div>
+            </form>
+            <div>
+                <p>
+                    No account? <a href="/registration" style="color: blue; text-decoration: none;">Sign up now</a>
+                </p>
+            </div>
+         </div>
+    </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>dexhome</title>
+</head>
+<body>
+    <nav>
+        <!-- Left Links -->
+        <div>
+            <a th:href="@{/}">Homepage</a>
+            <a th:href="@{/pokedex}">Pokedex</a>
+        </div>
+    
+        <!-- Right Links -->
+        <div>
+            <a th:if="${session.currentLoginUser != null}" th:href="@{/logout}">Logout</a>
+            <a th:if="${session.currentLoginUser == null}" th:href="@{/login}">Login</a>
+        </div>
+    </nav>
+    <h1>Pokedex</h1>
+    <h2>Select a Pokemon Region</h2>
+    <div>
+        <button onclick="location.href='/pokedex/gen/i'">
+            <img src="/images/gen1.png" alt="Generation I" style="width: 50px; height: 50px;">
+            Kanto (Generation I)
+        </button>
+        <button onclick="location.href='/pokedex/gen/ii'">
+            <img src="/images/gen2.png" alt="Generation II" style="width: 50px; height: 50px;">
+            Johto (Generation II)
+        </button>
+        <button onclick="location.href='/pokedex/gen/iii'">
+            <img src="/images/gen3.png" alt="Generation III" style="width: 50px; height: 50px;">
+            Hoenn (Generation III)
+        </button>
+        <button onclick="location.href='/pokedex/gen/iv'">
+            <img src="/images/gen4.png" alt="Generation IV" style="width: 50px; height: 50px;">
+            Sinnoh (Generation IV)
+        </button>
+        <button onclick="location.href='/pokedex/gen/v'">
+            <img src="/images/gen5.png" alt="Generation V" style="width: 50px; height: 50px;">
+            Unova (Generation V)
+        </button>
+        <button onclick="location.href='/pokedex/gen/vi'">
+            <img src="/images/gen6.png" alt="Generation VI" style="width: 50px; height: 50px;">
+            Kalos (Generation VI)
+        </button>
+        <button onclick="location.href='/pokedex/gen/vii'">
+            <img src="/images/gen7.png" alt="Generation VII" style="width: 50px; height: 50px;">
+            Alola (Generation VII)
+        </button>
+        <button onclick="location.href='/pokedex/gen/viii'">
+            <img src="/images/gen8.png" alt="Generation VIII" style="width: 50px; height: 50px;">
+            Galar (Generation VIII)
+        </button>
+        <button onclick="location.href='/pokedex/gen/ix'">
+            <img src="/images/gen9.png" alt="Generation IX" style="width: 50px; height: 50px;">
+            Paldea (Generation IX)
+        </button>
+    </div>
+    <div>
+        <a th:if="${session.currentLoginUser != null}" th:href="@{/teambuilder}">
+            <button type="button">View your team</button>
+        </a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage</title>
+    <body>
+        <div>
+            <nav>
+                <!-- Left Links -->
+                <div>
+                    <a th:href="@{/}">Homepage</a>
+                    <a th:href="@{/pokedex}">Pokedex</a>
+                </div>
+            
+                <!-- Right Links -->
+                <div>
+                    <a th:if="${session.currentLoginUser != null}" th:href="@{/logout}">Logout</a>
+                    <a th:if="${session.currentLoginUser == null}" th:href="@{/login}">Login</a>
+                </div>
+            </nav>
+            <h1>Login</h1>
+            <!-- Registration Form -->
+            <form th:action="@{/registration/verify}" method="post" th:object="${user}">
+                <div>
+                    <label>Enter your username</label>
+                    <div th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error"></div>
+                    <input name = "username" type="text" th:field = "*{username}">
+                </div>
+                <div>
+                    <label>Enter your Email address</label>
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></div>
+                    <input name = "email" type="text" th:field = "*{email}">
+                </div>
+                <div>
+                    <label>Enter your Password</label>
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error"></div>
+                    <input name = "password" type="text" th:field = "*{password}">
+                </div>
+                <div th:if="${errorMessage}">
+                    <p th:text="${errorMessage}"></p>
+                </div>
+                <div>
+                    <button type="submit">Sign up</button>
+                </div>
+            </form>
+            <div>
+                <p>
+                    Have an account? <a href="/registration" style="color: blue; text-decoration: none;">Login here</a>
+                </p>
+            </div>
+         </div>
+    </body>
+</html>

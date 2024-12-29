@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pokemon.name} + ' | Pokedex'">Pokedex</title>
+    <style>
+        .pokemon-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .details, .stats {
+            flex: 1;
+            min-width: 300px;
+        }
+        .moves {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <!-- Left Links -->
+        <div>
+            <a th:href="@{/}">Homepage</a>
+            <a th:href="@{/pokedex}">Pokedex</a>
+        </div>
+    
+        <!-- Right Links -->
+        <div>
+            <a th:if="${session.currentLoginUser != null}" th:href="@{/logout}">Logout</a>
+            <a th:if="${session.currentLoginUser == null}" th:href="@{/login}">Login</a>
+        </div>
+
+        <form th:if="${session.currentLoginUser != null}" th:action="@{/teambuilder}" method="post">
+            <input type="hidden" name="id" th:value="${pokemon.id}">
+            <button type="submit">Add to Team Builder</button>
+        </form>
+    </nav>
+    <div class="pokemon">
+        <!-- ID and Name -->
+        <p>Tip: Add .json to the end of the URL to get the pokemon data in JSON format.</p>
+        <h1>ID: <span th:text="${pokemon.id}"></span> - <span th:text="${pokemon.name}"></span></h1>
+
+        <!-- Image and Details -->
+        <div class="pokemon-container">
+            <!-- Image -->
+            <div class="image">
+                <img th:src="${pokemon.official_artwork}" alt="Official Artwork of" th:alt="${pokemon.name}" style="max-width: 300px;">
+            </div>
+
+            <!-- Height, Weight, Types, Abilities -->
+            <div class="details">
+                <p><strong>Height:</strong> <span th:text="${pokemon.height} + ' m'"></span></p>
+                <p><strong>Weight:</strong> <span th:text="${pokemon.weight} + ' kg'"></span></p>
+                <p><strong>Types:</strong> 
+                    <span th:each="type : ${pokemon.types}" th:text="${type}" style="display: inline-block; margin-right: 5px;"></span>
+                </p>
+                <p><strong>Abilities:</strong> 
+                    <span th:each="ability : ${pokemon.abilities}" th:text="${ability}" style="display: inline-block; margin-right: 5px;"></span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <h2>Stats</h2>
+            <ul>
+                <li th:each="stat : ${pokemon.stats}" th:text="${stat}"></li>
+            </ul>
+            <p><strong>Total Stats (BST):</strong> <span th:text="${pokemon.bst}"></span></p>
+        </div>
+
+        <!-- Moves -->
+        <div class="moves">
+            <h2>Moves</h2>
+            <ul>
+                <li th:each="move : ${pokemon.moves}" th:text="${move}"></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
