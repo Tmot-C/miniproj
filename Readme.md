@@ -14,9 +14,13 @@ In the teambuilder, you can view your chosen pokemon and select the moves and ab
 Credits:
 
 https://pokeapi.co/
+
 https://www.pocketmonsters.net/ (Logos)
-https://bulbapedia.bulbagarden.net/wiki/(Logos)
+
+https://bulbapedia.bulbagarden.net/wiki/ (Logos)
+
 https://wallpapercave.com/w/wp2525596 (Wooper background image)
+
 GameFreak and Nintendo
 
 
