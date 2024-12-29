@@ -23,7 +23,7 @@
     COPY --from=compiler /code_folder/target/SSFdexproj-0.0.1-SNAPSHOT.jar SSFdexproj.jar
     
     
-    ENV SERVER_PORT=3000
+    ENV SERVER_PORT=4000
     EXPOSE ${SERVER_PORT}
     
     ENTRYPOINT java -jar SSFdexproj.jar
