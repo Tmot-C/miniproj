@@ -27,6 +27,9 @@
             margin-top: 20px;
         }
         .navbar {
+            position: sticky;
+            top: 0; /* Sticks to the top of the viewport */
+            z-index: 1000; /* Ensures it's above other content */
             margin-bottom: 20px;
             
         }
@@ -89,15 +92,45 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg bg-dark p-3 rounded">
+    <!-- <nav class="navbar navbar-expand-lg bg-dark p-3 rounded">
         <div class="container-fluid">
             <a class="navbar-brand fs-5" th:href="@{/}">Homepage</a>
             <a class="nav-link fs-5 mx-3" th:href="@{/pokedex}">Pokedex</a>
             <a class="nav-link fs-5 ms-auto" th:if="${session.currentLoginUser != null}" th:href="@{/logout}">Logout</a>
             <a class="nav-link fs-5 ms-auto" th:if="${session.currentLoginUser == null}" th:href="@{/login}">Login</a>
         </div>
-    </nav>
+    </nav> -->
 
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid">
+            <!-- Toggler (Hamburger Button) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <!-- Collapsible Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Left-aligned Links -->
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Homepage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/pokedex}">Pokedex</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentLoginUser != null}">
+                        <a class="nav-link" th:href="@{/teambuilder}">Teambuilder</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentLoginUser != null}">
+                        <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentLoginUser == null}">
+                        <a class="nav-link" th:href="@{/login}">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
 
     <!-- Pokémon Cards -->

@@ -111,22 +111,34 @@
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg bg-dark p-0">
-        <div class="container-fluid d-flex justify-content-between align-items-center">
-            <!-- Left Section: Homepage and Pokedex Links -->
-            <div class="d-flex align-items-center">
-                <a class="navbar-brand fs-5 mx-3" th:href="@{/}">Home</a>
-                <a class="nav-link fs-5 mx-3" th:href="@{/pokedex}">Pokedex</a>
-                <a class="nav-link fs-5 mx-3" th:if="${session.currentLoginUser != null}" th:href="@{/teambuilder}">Teambuilder</a>
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+        <div class="container-fluid">
+            <!-- Toggler (Hamburger Button) -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <!-- Collapsible Links -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <!-- Left-aligned Links -->
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/}">Homepage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/pokedex}">Pokedex</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentLoginUser != null}">
+                        <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    </li>
+                    <li class="nav-item" th:if="${session.currentLoginUser == null}">
+                        <a class="nav-link" th:href="@{/login}">Login</a>
+                    </li>
+                </ul>
             </div>
+        </div>
+    </nav>
 
-
-            <!-- Right Section: Login/Logout Links -->
-            <div class="d-flex align-items-center">
-                
-                <a class="nav-link fs-5 mx-3" th:if="${session.currentLoginUser != null}" th:href="@{/logout}">Logout</a>
-                <a class="nav-link fs-5 mx-3" th:if="${session.currentLoginUser == null}" th:href="@{/login}">Login</a>
-            </div>
         </div>
     </nav>
 
