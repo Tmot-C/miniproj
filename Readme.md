@@ -12,11 +12,14 @@ You can create an account to be able to access the teambuilder.
 In the teambuilder, you can view your chosen pokemon and select the moves and abilities you want them to have (Visualisation only as of now).
 
 Credits:
-
 https://pokeapi.co/
+
 https://www.pocketmonsters.net/ (Logos)
+
 https://bulbapedia.bulbagarden.net/wiki/(Logos)
+
 https://wallpapercave.com/w/wp2525596 (Wooper background image)
+
 GameFreak and Nintendo
 
 
